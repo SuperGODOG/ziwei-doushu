@@ -103,6 +103,15 @@ SKILL.md 本身只有流程指令。所有星曜属性、宫位含义、格局�
 
 将本仓库克隆到 `~/.hermes/skills/ziwei-doushu/`，对话时输入 `ziwei-doushu` 即可触发。
 
+**Claude Code / Claude.ai**：
+
+```bash
+# 安装为 Claude Code skill
+git clone https://github.com/SuperGODOG/ziwei-doushu.git ~/.claude/skills/ziwei-doushu
+```
+
+对话时输入「紫微斗数」即可触发。也可直接将 `SKILL.md` 内容粘贴为 Claude 对话的 system prompt，并上传 `references/` 目录作为知识库附件。
+
 **其他 AI 工具**：
 
 将 `SKILL.md` + `references/` 目录作为 system prompt 或 skill 文件导入，具体方式取决于平台。
