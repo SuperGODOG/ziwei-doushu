@@ -16,24 +16,24 @@
 ziwei-doushu/
 ├── SKILL.md                ← 核心：流程指令 + 决策路由 + 输出模板
 ├── README.md               ← 本文件
-├── references/             ← 权威数据层（AI 按需读取，不内联）
-│   ├── shier-gong.md           十二宫位详解（含空宫、夹宫处理规则）
-│   ├── shisi-zhuixing.md       十四主星详解（五行、亮度、庙旺陷落）
-│   ├── fuzhu-xing.md           辅星助星详解
-│   ├── sha-xing.md             煞星详解
-│   ├── sihua.md                四化飞星（含天干四化表、飞化分析方法）
-│   ├── geju.md                 格局分析（吉格/凶格/条件/纯度）
-│   ├── daxian-liunian.md       大限流年推算（含身宫）
-│   ├── hunyin.md               婚姻感情专题
-│   ├── shiye-caifu.md          事业财富专题
-│   ├── jiankang.md             健康专题
-│   ├── heluo-guaxiang.md       河洛卦象分析
-│   ├── qintian-sihua.md        欽天四化分析
-│   ├── wuxing-shengke.md       五行生克分析
-│   └── xingqing-mingli.md      星情论与名人命例
-└── scripts/
-    └── ziwei_calc.py           排盘工具（用户侧使用，技能本身不调用）
+└── references/             ← 权威数据层（AI 按需读取，不内联）
+    ├── shier-gong.md           十二宫位详解（含空宫、夹宫处理规则）
+    ├── shisi-zhuixing.md       十四主星详解（五行、亮度、庙旺陷落）
+    ├── fuzhu-xing.md           辅星助星详解
+    ├── sha-xing.md             煞星详解
+    ├── sihua.md                四化飞星（含天干四化表、飞化分析方法）
+    ├── geju.md                 格局分析（吉格/凶格/条件/纯度）
+    ├── daxian-liunian.md       大限流年推算（含身宫）
+    ├── hunyin.md               婚姻感情专题
+    ├── shiye-caifu.md          事业财富专题
+    ├── jiankang.md             健康专题
+    ├── heluo-guaxiang.md       河洛卦象分析
+    ├── qintian-sihua.md        欽天四化分析
+    ├── wuxing-shengke.md       五行生克分析
+    └── xingqing-mingli.md      星情论与名人命例
 ```
+
+排盘请使用成熟的第三方工具（见下方「排盘」小节），本项目不包含排盘功能。
 
 ## 核心机制
 
@@ -118,13 +118,14 @@ git clone https://github.com/SuperGODOG/ziwei-doushu.git ~/.claude/skills/ziwei-
 
 ### 排盘
 
-本技能不包含排盘功能。用户需先用 `scripts/ziwei_calc.py` 自行排盘：
+本技能只做解盘，不做排盘。请使用成熟的第三方排盘工具，将排出的星盘按 SKILL.md「用户引导」小节的格式贴给 AI 即可。
 
-```bash
-python scripts/ziwei_calc.py 1990 8 15 14 男
-```
+推荐排盘工具：
 
-然后将排盘结果发送给 AI 进行分析。
+- **[iztro](https://github.com/SylarLong/iztro)** — 开源紫微斗数排盘 JS 库（含 TypeScript 类型定义，浏览器/Node 皆可用），另有 Python 移植版 `iztro-py`
+- **任意在线排盘网站** — 搜索「紫微斗数 在线排盘」，选择支持导出十二宫星曜、生年四化、当前大限的即可
+
+**为什么不自带排盘？** 紫微斗数排盘涉及农历/闰月转换、五虎遁、五行局对照、紫微/天府星系分布、六吉/六煞/四化定位等大量精细规则，任何简化实现都容易出错。将排盘外包给专门维护的工具，AI 专注解盘，这是本项目的定位。
 
 ## 触发词
 

@@ -12,24 +12,24 @@ description: "Use when users request astrolabe chart analysis, fortune telling b
 ```
 /ziwei-doushu/
 ├── SKILL.md                    ← 本文件：工作流 + 路由 + 輸出模板（流程指令，不含參考數據）
-├── references/                 ← 權威數據層（解盤時按需讀取）
-│   ├── shier-gong.md              十二宮位詳解（含空宮處理規則）
-│   ├── shisi-zhuixing.md          十四主星詳解（含五行、亮度、廟旺陷落）
-│   ├── fuzhu-xing.md              輔星助星詳解
-│   ├── sha-xing.md                煞星詳解
-│   ├── sihua.md                   四化飛星詳解（含天干四化表）
-│   ├── geju.md                    格局分析（吉格/凶格/條件/純度判定）
-│   ├── daxian-liunian.md          大限流年推算方法
-│   ├── hunyin.md                  婚姻感情專題
-│   ├── shiye-caifu.md             事業財富專題
-│   ├── jiankang.md                健康專題
-│   ├── heluo-guaxiang.md          河洛卦象分析方法
-│   ├── qintian-sihua.md           欽天四化分析方法
-│   ├── wuxing-shengke.md          五行生克分析方法
-│   └── xingqing-mingli.md         星情論與名人命例
-└── scripts/
-    └── ziwei_calc.py            排盤工具（用戶側使用，本 skill 不調用）
+└── references/                 ← 權威數據層（解盤時按需讀取）
+    ├── shier-gong.md              十二宮位詳解（含空宮處理規則）
+    ├── shisi-zhuixing.md          十四主星詳解（含五行、亮度、廟旺陷落）
+    ├── fuzhu-xing.md              輔星助星詳解
+    ├── sha-xing.md                煞星詳解
+    ├── sihua.md                   四化飛星詳解（含天干四化表）
+    ├── geju.md                    格局分析（吉格/凶格/條件/純度判定）
+    ├── daxian-liunian.md          大限流年推算方法
+    ├── hunyin.md                  婚姻感情專題
+    ├── shiye-caifu.md             事業財富專題
+    ├── jiankang.md                健康專題
+    ├── heluo-guaxiang.md          河洛卦象分析方法
+    ├── qintian-sihua.md           欽天四化分析方法
+    ├── wuxing-shengke.md          五行生克分析方法
+    └── xingqing-mingli.md         星情論與名人命例
 ```
+
+排盤由用戶使用外部工具完成（如 [iztro](https://github.com/SylarLong/iztro) 或任意在線排盤網站），本 skill 只做解盤。
 
 ## 資料來源規則（HARD-GATE）
 
@@ -59,7 +59,7 @@ SKILL.md 僅包含工作流程與路由指令。所有星曜屬性、宮位含�
 - 用戶詢問星曜特性、宮位含義、格局、四化、大限流年
 - 關鍵詞觸發：「紫微斗數」「命盤」「解盤」「十二宮」「四化」「大限」「流年」
 
-**排盤由用戶完成。** 若用戶尚未排盤，引導其使用 `scripts/ziwei_calc.py` 自行排盤後再來。
+**排盤由用戶完成。** 若用戶尚未排盤，引導其使用外部排盤工具（推薦 [iztro](https://github.com/SylarLong/iztro) 或任意在線排盤網站）自行排盤後再來。
 
 ---
 
@@ -80,7 +80,7 @@ SKILL.md 僅包含工作流程與路由指令。所有星曜屬性、宮位含�
 當前大限：[宮位]，虛歲 [X]-[Y]
 ```
 
-> 「如果還沒排盤，可以用 `scripts/ziwei_calc.py` 排盤後再來。」
+> 「如果還沒排盤，可用 [iztro](https://github.com/SylarLong/iztro) 或任意在線排盤網站，把結果按上述格式貼過來。」
 
 ### 防範記憶污染（ANTI-CONTAMINATION）
 
