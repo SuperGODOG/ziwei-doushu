@@ -1,0 +1,36 @@
+site_name: Ziwei Doushu · SuperGODOG
+site_description: ziwei-doushu 项目文档
+site_url: https://supergodog.github.io/ziwei-doushu/
+repo_url: https://github.com/SuperGODOG/ziwei-doushu
+repo_name: ziwei-doushu
+edit_uri: blob/main/
+
+docs_dir: site_src
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - toc.follow
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+
+copyright: Copyright &copy; 2026 SuperGODOG
