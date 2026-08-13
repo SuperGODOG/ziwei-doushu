@@ -11,7 +11,8 @@ SOURCES = [
     "README.md",
     "SKILL.md",
     "references",
-    "LICENSE"
+    "LICENSE",
+    "assets"
 ]
 
 def main():

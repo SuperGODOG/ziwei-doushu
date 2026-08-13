@@ -1,3 +1,9 @@
+<div align="center">
+
+![紫微斗数 AI 解盘技能](assets/ziwei-banner.png)
+
+</div>
+
 # 紫微斗数 AI 解盘技能 (Zi Wei Dou Shu Chart Reading Skill)
 
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue)](LICENSE)
