@@ -7,187 +7,166 @@
 # 紫微斗数 AI 解盘技能 (Zi Wei Dou Shu Chart Reading Skill)
 
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Antigravity%20%7C%20Claude%20Code%20%7C%20Hermes-8A2BE2)](#使用方式)
+[![Knowledge Base](https://img.shields.io/badge/References-14%20Modules-success)](#知识库架构)
 
-紫微斗数 AI Skill — 一份面向 LLM（Claude、DeepSeek、GPT 等）的结构化解盘指令集。**不是排盘工具，是解盘引擎。**
+紫微斗数 AI Skill — 一份面向大语言模型（Claude、Antigravity CLI、DeepSeek、GPT 等）的结构化专业解盘指令集与权威知识库。**不是排盘工具，是专业解盘引擎。**
 
-## 与常见紫微斗数项目的区别
+---
 
-大多数紫微斗数项目做的是「排盘」——把生日变成星盘。这只需要一个文件即可运行
-本项目做的是「解盘」:标准化Json星盘已经有了，问题是怎么让 AI 读出水准。
+## 🌟 核心特色
 
-核心思路：**把人类命理师的解盘逻辑，写成 AI 能严格执行的工作流。**
+- **纯解盘引擎定位**：排盘交由专业算法库，AI 专注于执行人类资深命理师的专业推演与多维解读。
+- **HARD-GATE 安全防编造机制**：指令集与知识库彻底解耦。AI 回答前必须实时调阅对应的 reference 文件，**不读不答，拒绝幻觉**。
+- **正统典籍校准**：知识库全量参考《紫微斗数全书》《紫微斗数全集》《骨髓赋》及主流学术论坛共识，排除了星曜五行颠倒、伪吉格与推运口诀错误。
+- **多流派权重融合**：以**三合派（70%）**为骨架，融合**飞星四化（15%）**、**河洛卦象（10%）**与**钦天四化（5%）**，提供兼具格局高度与时空细节的推演。
+- **多 Agent 平台即插即用**：原生支持 Google Antigravity CLI / Gemini CLI、Claude Code、Hermes Agent、Cursor、Aider 等主流 AI Agent 平台。
 
-## 架构设计
+---
+
+## 🏛️ 知识库架构
 
 ```
 ziwei-doushu/
 ├── SKILL.md                ← 核心：流程指令 + 决策路由 + 输出模板
-├── README.md               ← 本文件
+├── README.md               ← 本说明文件
 └── references/             ← 权威数据层（AI 按需读取，不内联）
-    ├── shier-gong.md           十二宫位详解（含空宫、夹宫处理规则）
-    ├── shisi-zhuixing.md       十四主星详解（五行、亮度、庙旺陷落）
-    ├── fuzhu-xing.md           辅星助星详解
-    ├── sha-xing.md             煞星详解
-    ├── sihua.md                四化飞星（含天干四化表、飞化分析方法）
-    ├── geju.md                 格局分析（吉格/凶格/条件/纯度）
-    ├── daxian-liunian.md       大限流年推算（含身宫）
+    ├── shier-gong.md           十二宫位详解（含空宫借对、夹宫双向效应、财荫/刑忌夹印）
+    ├── shisi-zhuixing.md       十四主星详解（五行、阴阳、庙旺陷落、双星同宫特质）
+    ├── fuzhu-xing.md           六吉星与辅星详解（左右、昌曲、魁钺、禄存、天马）
+    ├── sha-xing.md             六煞星详解（羊陀火铃空劫，火空则发与生克制化）
+    ├── sihua.md                四化飞星详解（天干四化表、飞化公式、来因宫定位）
+    ├── geju.md                 格局三层判定（石中隐玉、明珠出海、日月并明、铃昌陀武等）
+    ├── daxian-liunian.md       大限流年小限推算（含年支三合起小限、身宫命身合参）
     ├── hunyin.md               婚姻感情专题
-    ├── shiye-caifu.md          事业财富专题
-    ├── jiankang.md             健康专题
-    ├── heluo-guaxiang.md       河洛卦象分析
-    ├── qintian-sihua.md        欽天四化分析
-    ├── wuxing-shengke.md       五行生克分析
-    └── xingqing-mingli.md      星情论与名人命例
+    ├── shiye-caifu.md          事业财富专题（命财官三方四正与田宅财库）
+    ├── jiankang.md             疾厄健康专题（星曜五行病灶与运势应期）
+    ├── heluo-guaxiang.md       河洛卦象分析（一六共宗、六条线、气数位）
+    ├── qintian-sihua.md        钦天四化分析（体用向心离心自化）
+    ├── wuxing-shengke.md       五行生克分析（五行局、通关救应、反侮机制）
+    └── xingqing-mingli.md      星情论与历代名人命例
 ```
-
-排盘请使用成熟的第三方工具（见下方「排盘」小节），本项目不包含排盘功能。
-
-## 核心机制
-
-### HARD-GATE 规则
-
-SKILL.md 本身只有流程指令。所有星曜属性、宫位含义、格局条件、四化规则等具体数据，**全部放在 references/ 目录中**，AI 每次回答前必须按需读取。
-
-```
-每次回答用户前，必须先读取与问题相关的所有 reference 文件。不读不答。
-```
-
-这是为了防止 AI 凭训练数据「编造」紫微斗数内容而设计的安全带。
-
-### 决策路由
-
-用户问题进入后，按 14 条路径自动路由到对应的 reference 文件：
-
-```
-用户请求
-├─ 宫位/三方四正/空宫 → references/shier-gong.md
-├─ 主星特性/庙旺陷落  → references/shisi-zhuixing.md
-├─ 四化/来因宫        → references/sihua.md
-├─ 格局评定            → references/geju.md
-├─ 大限/流年/身宫     → references/daxian-liunian.md
-├─ 婚姻               → references/hunyin.md
-├─ 事业/财运          → references/shiye-caifu.md
-├─ 健康               → references/jiankang.md
-├─ 五行生克           → references/wuxing-shengke.md
-└─ 跨领域             → 多文件组合读取
-```
-
-### 双输出模式
-
-| 模式 | 适用场景 | 输出结构 |
-|------|----------|----------|
-| Short Mode | 具体 yes/no 问题、单一事件预测 | 结论 → 关键宫位 → 时间推算(可选) → 建议 |
-| Full Mode | 整体格局分析、全面解盘 | 命盘概览 → 格局评定 → 三方四正 → 专题分析 → 时间推算 |
-
-### 五步解盘工作流
-
-1. **命宫三方四正分析** — 三合派核心，空宫借对规则
-2. **星曜综合互动** — 主星+辅星+煞星+四化+五行生克+夹宫效应
-3. **格局三層评定** — 类型/等级/纯度，含星格+数格九品体系
-4. **时间推算** — 生年四化 → 大限 → 流年 → 身宫
-5. **聚焦问题分析** — 三合派 70% + 辅助流派最高 30%
-
-### 流派权重
-
-| 流派 | 权重 | 角色 |
-|------|------|------|
-| 三合派 | 70% | 核心框架 |
-| 飞星四化 | 15% | 宫位互动验证 |
-| 河洛卦象 | 10% | 先后天卦象补充 |
-| 欽天四化 | 5% | 来因宫定位 |
-
-辅助流派总和不超过 30%。数据不足时跳过，不编造。
-
-### 防绕过机制
-
-内建 7 条 Red Flag 检查 — 当 AI 试图「凭记忆回答」「跳过简单问题」「偷懒不读 reference」时，规则强制拉回。
-
-## 使用方式
-
-### 安装为 AI Skill
-
-**Hermes Agent**：
-
-将本仓库克隆到 `~/.hermes/skills/ziwei-doushu/`，对话时输入 `ziwei-doushu` 即可触发。
-
-**Claude Code / Claude.ai**：
-
-```bash
-# 安装为 Claude Code skill
-git clone https://github.com/SuperGODOG/ziwei-doushu.git ~/.claude/skills/ziwei-doushu
-```
-
-对话时输入「紫微斗数」即可触发。也可直接将 `SKILL.md` 内容粘贴为 Claude 对话的 system prompt，并上传 `references/` 目录作为知识库附件。
-
-**其他 AI 工具**：
-
-将 `SKILL.md` + `references/` 目录作为 system prompt 或 skill 文件导入，具体方式取决于平台。
-
-### 排盘
-
-本技能目前只做解盘，不做排盘。
-
-
-**为什么不自带排盘？** 
-紫微斗数排盘涉及农历/闰月转换、五虎遁、五行局对照、紫微/天府星系分布、六吉/六煞/四化定位等大量精细规则，任何简化实现都容易出错。将排盘外包给专门维护的工具，AI 专注解盘，这是本项目的定位。
-
-
-当然实在来说,本来就一个工具能解决的事,还有个细节问题: **LLM很多时候会根据你的年龄段大多数的人的境遇来猜** 
-(就算我做排盘也没办法消除你输入的出生日期,除非我把排盘后的Json去除年龄,传参给subAgent,推理全权交给它们.但这会丧失很多细节)
-所以请使用成熟的第三方排盘工具，将排出的星盘按 SKILL.md「用户引导」小节的格式贴给 AI 即可。尽量不要暴露具体年月日数据.
-后期找到合适方案会加入到skill
-
-推荐排盘工具：
-
-- **[iztro](https://github.com/SylarLong/iztro)** — 开源紫微斗数排盘 JS 库（含 TypeScript 类型定义，浏览器/Node 皆可用），另有 Python 移植版 `iztro-py`
-- **任意在线排盘网站** — 搜索「紫微斗数 在线排盘」，选择支持导出十二宫星曜、生年四化、当前大限的即可
-
-
-## 触发词
-
-紫微斗數、紫微、斗數、命盤、排盤、星盤、十二宮、命宮、四化、大限、流年、ziwei、purple star、astrolabe
-
-## 与上游项目的关系
-
-本项目基于 [Wolke/ziwei-doushu](https://github.com/Wolke/ziwei-doushu) 进行重构。主要变更：
-
-- 定位从「排盘+解盘」改为「纯解盘引擎」
-- 新增 HARD-GATE 防编造机制
-- 新增决策路由树（14 条路径）
-- 新增 Short/Full 双输出模式
-- 新增五步解盘工作流
-- 新增流派权重分配体系
-- SKILL.md 从 80 行扩至 360+ 行
-- references 从 10 个扩充至 14 个
-
-## 路线图
-
-目前项目是一个 AI Skill 指令集，需要依赖Harness比如Codex / Claude Code / Hermes Agent /Antigravity CLI 等平台运行。后续计划：
-
-### Phase 1：独立化（就近）
-
-- [ ] 封装 Harness 层：将 SKILL.md + references 打包为可独立调用的解盘引擎
-- [ ] 接入 LLM API（DeepSeek / 千问），去掉对特定 Agent 平台的依赖
-- [ ] 输出标准化：命盘 JSON → 解盘引擎 → 结构化解读文本 / JSON
-
-### Phase 2：可用产品（中期）
-
-- [ ] Next.js 前端：用户输入生日 → 自动排盘 → AI 解读 → 流式展示
-- [ ] 多流派切换：用户可选择三合派为主 / 飞星派为主 / 全流派综合
-- [ ] ICP 备案，国内可访问
-
-### Phase 3：差异化竞争（远期）
-
-- [ ] 名人命盘对比：用户命盘 vs 历史名人命盘相似度分析
-- [ ] 多流派交叉验证：同一问题从三合/飞星/河洛/欽天四角度解读
-- [ ] 解读质量评估：基于 reference 的一致性和完整性自动评分
-
-> 路线图是方向，不是承诺。PR welcome。
-
-## 许可
-
-CC BY-NC-SA 4.0
 
 ---
 
-*命由天造，运由己生。虽曰天命,岂非人事?紫微斗数是认识自己的工具，是合理化决策的玄学担保机制,而非宿命的判决书。*
+## 🛡️ 核心推演机制
+
+### 1. 决策路由系统
+
+用户输入命盘或问题后，系统按 14 条路径自动路由读取目标知识库：
+
+```
+用户请求
+├─ 宫位/三方四正/空宫借对 → references/shier-gong.md
+├─ 主星特性/庙旺陷落      → references/shisi-zhuixing.md
+├─ 六煞/六吉/辅曜特性      → references/sha-xing.md, fuzhu-xing.md
+├─ 四化/来因宫/飞化        → references/sihua.md
+├─ 格局评定/吉凶纯度      → references/geju.md
+├─ 大限/流年/小限/身宫     → references/daxian-liunian.md
+├─ 婚姻感情/桃花          → references/hunyin.md
+├─ 事业/财运/创业          → references/shiye-caifu.md
+├─ 健康/疾厄/病灶          → references/jiankang.md
+├─ 五行生克/五行局        → references/wuxing-shengke.md
+└─ 综合解盘                → 多文件组合交叉读取
+```
+
+### 2. 双输出模式
+
+| 模式 | 适用场景 | 输出结构 |
+|------|----------|----------|
+| **Short Mode** | 具体 yes/no 问题、单一事件或时机预测 | 核心结论 → 关键宫位与星曜 → 时机应期 → 实操建议 |
+| **Full Mode** | 整体格局分析、全盘深度解读 | 命盘概览 → 命身格局评定 → 三方四正精析 → 专题深挖 → 大限流年推演 → 核心建议 |
+
+### 3. 五步解盘工作流
+
+1. **命宫三方四正分析** — 三合派核心架构，空宫借对宫主星，核定命财官迁基盘。
+2. **星曜综合互动** — 主星 + 六吉 + 六煞 + 四化 + 五行生克 + 夹宫（财荫夹印/刑忌夹印等）。
+3. **格局三层判定** — 严格依 `required（必备）` → `breaking（破格）` → `bonus（加分）` 逐项核验纯度与九品等级。
+4. **时空运势推算** — 生年四化（体）→ 大限四化（十年用）→ 流年太岁与小限（应期）→ 命身合参。
+5. **专题多维聚焦** — 三合派 70% 主导，飞星四化、河洛卦象与钦天四化进行交叉验证。
+
+---
+
+## 🔍 知识库正统校准说明
+
+本版本对传统斗数文献及知识库进行了严格的**理论审校与知识点校正**：
+
+1. **星曜五行归正**：
+   - **地空**更正为**阴火（丁火）**，**地劫**更正为**阳火（丙火）**（契合“火空则发”古理，排除水属误记）；
+   - **天魁（阳火）**、**天钺（阴火）**；**擎羊（阳金）**、**陀罗（阴金）**；**禄存（阴土）**归位。
+2. **主星庙旺陷落校准**：
+   - **巨门星**：子午入庙（石中隐玉），辰戌落陷（天罗地网）；
+   - **天机星**：辰戌庙旺（善荫朝纲），巳亥落陷；
+   - **天同星**：子位庙旺（水澄桂萼），午位落陷；
+   - **天相星**：明确标出卯酉二宫独坐落陷。
+3. **经典格局定义规范**：
+   - **明珠出海格**：规范为未宫立命无正曜，卯阳亥阴并明会照（明确区分太阳卯宫坐命的“日出扶桑格”）；
+   - **日月同辉格**：规范为日巳月酉或日卯月亥并明（明确区分丑未二宫的“日月同宫格”）；
+   - **铃昌陀武格**：明确界定为《骨髓赋》所载之水厄败亡凶格，移除伪吉化概念。
+4. **推运法则校准**：
+   - **小限起宫**：严格遵循生年三合四墓库起算口诀（寅午戌起辰、申子辰起戌、巳酉丑起未、亥卯未起丑，男顺女逆）。
+5. **宫位体系纠偏**：
+   - 修正事业宫（官禄宫）三合宫位为【命宫】与【财帛宫】；补齐六外宫之【兄弟宫】分类。
+
+---
+
+## 🚀 安装与使用方式
+
+### 1. Google Antigravity CLI / Gemini CLI
+
+直接将本仓库克隆至全局配置目录或项目 `.agents/` 目录：
+
+```bash
+# 全局安装（所有工作区通用）
+git clone https://github.com/SuperGODOG/ziwei-doushu.git ~/.gemini/config/skills/ziwei-doushu
+
+# 或项目级安装
+git clone https://github.com/SuperGODOG/ziwei-doushu.git .agents/skills/ziwei-doushu
+```
+
+在对话中输入关于命盘、十二宫、四化或紫微斗数的问题，Antigravity CLI 将自动按需调阅知识库。
+
+### 2. Claude Code
+
+```bash
+git clone https://github.com/SuperGODOG/ziwei-doushu.git ~/.claude/skills/ziwei-doushu
+```
+
+### 3. Hermes Agent
+
+```bash
+git clone https://github.com/SuperGODOG/ziwei-doushu.git ~/.hermes/skills/ziwei-doushu
+```
+
+### 4. 其他 LLM 平台（Web / IDE 扩展）
+
+将 `SKILL.md` 内容作为 System Prompt，并将 `references/` 目录下的 Markdown 文档作为上下文知识库附件上传即可。
+
+---
+
+## 📊 推荐搭配排盘工具
+
+本 Skill 聚焦于精准解盘，推荐使用以下成熟的第三方排盘工具生成命盘后贴给 AI：
+
+- **[iztro](https://github.com/SylarLong/iztro)** — 现代开源紫微斗数排盘 JS/TS 库（另有 Python 版 `iztro-py`）
+- **各大专业在线排盘网站** — 导出包含十二宫星曜分布、三方四正、生年四化与大限流年的标准文本/JSON 格式即可。
+
+---
+
+## 🎯 触发词 (Triggers)
+
+> 紫微斗數、紫微、斗數、命盤、排盤、星盤、十二宮、命宮、四化、大限、流年、来因宫、ziwei、purple star、astrolabe
+
+---
+
+## 📄 开源许可
+
+本项目遵循 [CC BY-NC-SA 4.0](LICENSE) 许可协议发布。
+
+---
+
+<div align="center">
+
+*命由天造，运由己生。虽曰天命，岂非人事？紫微斗数是认识自我潜能与时机节奏的智慧系统，而非宿命判决书。*
+
+</div>
